@@ -1,0 +1,14 @@
+{
+  "name": "Mouvement Reco",
+  "id": 555,
+  "description": "Controle par reconnaissance des mouvements du robot",
+  "version": "v1",
+  "mainClass": "fr.pa1007.reco.Main",
+  "authors": [
+    "paul-alexandre",
+    "paulloupe",
+    "fran\u00e7ois",
+    "eros",
+    "martin"
+  ]
+}
