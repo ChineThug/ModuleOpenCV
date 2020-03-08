@@ -1,20 +1,18 @@
 package fr.pa1007.reco.motor;
 
-import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.PinState;
-import com.pi4j.io.gpio.impl.PinImpl;
 import fr.pa1007.trobotframework.move.Motor;
+import fr.pa1007.trobotframework.utils.Utils;
 
 public class MotorImpl extends Motor {
 
-    public MotorImpl(PinImpl pwmPin, PinImpl pin) {
+    public MotorImpl(Pin pwmPin, Pin pin) {
         super(pwmPin, pin);
-        gpio = GpioFactory.getInstance();
+        gpio = Utils.getProvider();
         provider = MotorsImpl.getProvider();
         pwm = 1;
         this.output = gpio.provisionPwmOutputPin(provider, pwmPin, "Pulse 04");
-        provider = MotorsImpl.getProvider();
         init();
     }
 
@@ -43,13 +41,13 @@ public class MotorImpl extends Motor {
     @Override
     public void forward(int speed) {
         changeSpeed(speed);
-        forwardOutput.setState(PinState.HIGH);
+        forwardOutput.setState(PinState.LOW);
     }
 
     @Override
     public void reverse(int speed) {
         changeSpeed(speed);
-        forwardOutput.setState(PinState.LOW);
+        forwardOutput.setState(PinState.HIGH);
     }
 
 
@@ -66,13 +64,13 @@ public class MotorImpl extends Motor {
     @Override
     public void forwardWithoutChange(int speed) {
         provider.setPwm(pwmPin, speed);
-        forwardOutput.setState(PinState.HIGH);
+        forwardOutput.setState(PinState.LOW);
     }
 
     @Override
     public void reverseWithoutChange(int speed) {
         provider.setPwm(pwmPin, speed);
-        forwardOutput.setState(PinState.LOW);
+        forwardOutput.setState(PinState.HIGH);
     }
 
     @Override
@@ -83,6 +81,6 @@ public class MotorImpl extends Motor {
 
     @Override
     protected void init() {
-        forwardOutput = gpio.provisionDigitalOutputPin(pin, "Forward", PinState.LOW);
+        forwardOutput = gpio.provisionDigitalOutputPin(pin, "Forward", PinState.HIGH);
     }
 }
